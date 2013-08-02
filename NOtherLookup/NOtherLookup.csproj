@@ -45,6 +45,7 @@
     <Compile Include="Lookup_ToDictionary.cs" />
     <Compile Include="Dictionary_ToLookup.cs" />
     <Compile Include="Lookup.cs" />
+    <Compile Include="Lookup_Where.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
