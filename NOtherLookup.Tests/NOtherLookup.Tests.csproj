@@ -48,7 +48,7 @@
     <Compile Include="Grouping_ToLookup.cs" />
     <Compile Include="Lookup_Union.cs" />
     <Compile Include="Lookup_Concat.cs" />
-    <Compile Include="Lookup_Where.cs" />
+    <Compile Include="Lookup_Select.cs" />
     <Compile Include="Utils\LookupBuilder.cs" />
     <Compile Include="Lookup_ToDictionary.cs" />
     <Compile Include="Dictionary_ToLookup.cs" />
