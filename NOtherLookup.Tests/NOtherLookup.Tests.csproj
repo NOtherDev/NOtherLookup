@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lookup_Intersect.cs" />
     <Compile Include="Grouping_ToLookup.cs" />
     <Compile Include="Lookup_Union.cs" />
     <Compile Include="Lookup_Concat.cs" />

@@ -10,13 +10,11 @@ namespace NOtherLookup
         {
             if (first == null)
                 throw new ArgumentNullException("first");
-            if (second == null)
-                throw new ArgumentNullException("second");
 
-            return DoUnion(first, second).ToLookup();
+            return UnionImpl(first, second).ToLookup();
         }
 
-        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> DoUnion<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)
+        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> UnionImpl<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)
         {
             var secondKeys = new HashSet<TKey>(second.Select(x => x.Key));
             foreach (var grouping in first)

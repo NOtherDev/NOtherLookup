@@ -11,7 +11,7 @@ namespace NOtherLookup.Tests
         Establish context = () =>
             lookup = LookupBuilder
                 .WithKey(1, new[] { "a", "b" })
-                .WithKey(2, new[] { "c", "d" }).Build();
+                .WithKey(2, new[] { "c", "d", "d" }).Build();
 
         Because of = () =>
             concatenated = lookup.Concat(LookupBuilder
@@ -24,7 +24,7 @@ namespace NOtherLookup.Tests
         It should_have_concatenated_IEnumerables_inside = () =>
         {
             concatenated[1].ShouldContainExactly("a", "b");
-            concatenated[2].ShouldContainExactly("c", "d", "e", "d");
+            concatenated[2].ShouldContainExactly("c", "d", "d", "e", "d");
             concatenated[3].ShouldContainExactly("f", "g");
         };
         
