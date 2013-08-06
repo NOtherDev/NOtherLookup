@@ -10,16 +10,10 @@ namespace NOtherLookup
         {
             if (first == null)
                 throw new ArgumentNullException("first");
+            if (second == null)
+                throw new ArgumentNullException("second");
 
-            return ExceptImpl(first, second).ToLookup();
-        }
-
-        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> ExceptImpl<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)
-        {
-            var secondKeys = new HashSet<TKey>(second.Select(x => x.Key));
-            foreach (var grouping in first)
-                //if (secondKeys.Add(grouping.Key))
-                    yield return new KeyValuePair<TKey, IEnumerable<TValue>>(grouping.Key, grouping.Except(second[grouping.Key]));
+            return first.Select(x => new KeyValuePair<TKey, IEnumerable<TValue>>(x.Key, x.Except(second[x.Key]))).ToLookup();
         }
     }
 }
