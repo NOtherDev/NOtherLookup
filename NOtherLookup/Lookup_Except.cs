@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Collections.Generic;
 using System;
@@ -6,6 +7,7 @@ namespace NOtherLookup
 {
     public static partial class LookupExtensions
     {
+        [Pure]
         public static ILookup<TKey, TValue> Except<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)
         {
             if (first == null)
