@@ -9,12 +9,12 @@ namespace NOtherLookup.Tests
     public class When_unionizing_lookups
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 
         Because of = () =>
-            concatenated = lookup.Union(LookupBuilder
+            concatenated = lookup.Union(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build());
 
@@ -37,7 +37,7 @@ namespace NOtherLookup.Tests
             lookup = null;
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Union(LookupBuilder
+            exception = Catch.Exception(() => lookup.Union(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build()));
 
@@ -51,7 +51,7 @@ namespace NOtherLookup.Tests
     public class When_unionizing_lookup_with_null
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 

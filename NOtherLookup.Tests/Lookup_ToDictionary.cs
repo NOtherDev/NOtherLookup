@@ -9,7 +9,7 @@ namespace NOtherLookup.Tests
     public class When_converting_lookup_to_IDictionary
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 

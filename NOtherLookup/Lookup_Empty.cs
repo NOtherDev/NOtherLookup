@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NOtherLookup
 {
-    public static class Lookup
+    public static partial class Lookup
     {
         private class EmptyHolder<TKey, TValue>
         {

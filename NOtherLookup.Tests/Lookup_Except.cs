@@ -9,13 +9,13 @@ namespace NOtherLookup.Tests
     public class When_creating_lookups_difference
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(0, new[] { "a", "b", "a" })
                 .WithKey(1, new[] { "c", "d" })
                 .WithKey(2, new[] { "e", "f", "f" }).Build();
 
         Because of = () =>
-            difference = lookup.Except(LookupBuilder
+            difference = lookup.Except(Lookup.Builder
                 .WithKey(2, new[] { "f", "g", "e" })
                 .WithKey(1, new[] { "c", "b" })
                 .WithKey(3, new[] { "i", "j" }).Build());
@@ -38,7 +38,7 @@ namespace NOtherLookup.Tests
             lookup = null;
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Except(LookupBuilder
+            exception = Catch.Exception(() => lookup.Except(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build()));
 
@@ -52,7 +52,7 @@ namespace NOtherLookup.Tests
     public class When_creating_difference_of_lookup_and_null
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 

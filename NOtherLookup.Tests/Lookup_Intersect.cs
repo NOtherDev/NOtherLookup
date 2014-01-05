@@ -9,13 +9,13 @@ namespace NOtherLookup.Tests
     public class When_intersecting_lookups
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(0, new[] { "a", "b" })
                 .WithKey(1, new[] { "c", "d" })
                 .WithKey(2, new[] { "e", "f", "f" }).Build();
 
         Because of = () =>
-            intersection = lookup.Intersect(LookupBuilder
+            intersection = lookup.Intersect(Lookup.Builder
                 .WithKey(2, new[] { "f", "g", "h" })
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(3, new[] { "i", "j" }).Build());
@@ -35,7 +35,7 @@ namespace NOtherLookup.Tests
             lookup = null;
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Intersect(LookupBuilder
+            exception = Catch.Exception(() => lookup.Intersect(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build()));
 
@@ -49,7 +49,7 @@ namespace NOtherLookup.Tests
     public class When_intersecting_lookup_with_null
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 

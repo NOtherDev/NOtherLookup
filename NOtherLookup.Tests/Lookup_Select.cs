@@ -9,7 +9,7 @@ namespace NOtherLookup.Tests
     public class When_filtering_lookup_by_values
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey("a", new[] { 1, 3 })
                 .WithKey("b", new[] { 2, 4 }).Build();
 
@@ -43,7 +43,7 @@ namespace NOtherLookup.Tests
     public class When_traversing_lookup_with_null_function
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey("a", new[] { 1, 3 })
                 .WithKey("b", new[] { 2, 4 }).Build();
 

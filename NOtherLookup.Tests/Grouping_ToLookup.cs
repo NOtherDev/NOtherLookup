@@ -9,7 +9,7 @@ namespace NOtherLookup.Tests
     public class When_converting_IEnumerable_of_IGrouping_to_lookup
     {
         Establish context = () =>
-            grouping = LookupBuilder
+            grouping = Lookup.Builder
                 .WithKey("a", new[] { 1, 3 })
                 .WithKey("b", new[] { 2, 4 }).Build();
 

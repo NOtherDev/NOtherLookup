@@ -9,12 +9,12 @@ namespace NOtherLookup.Tests
     public class When_concatenating_lookups
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d", "d" }).Build();
 
         Because of = () =>
-            concatenated = lookup.Concat(LookupBuilder
+            concatenated = lookup.Concat(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build());
 
@@ -37,7 +37,7 @@ namespace NOtherLookup.Tests
             lookup = null;
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Concat(LookupBuilder
+            exception = Catch.Exception(() => lookup.Concat(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build()));
 
@@ -51,7 +51,7 @@ namespace NOtherLookup.Tests
     public class When_concatenating_lookup_with_null
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 

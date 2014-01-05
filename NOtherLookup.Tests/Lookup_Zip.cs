@@ -9,12 +9,12 @@ namespace NOtherLookup.Tests
     public class When_zipping_lookups
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { 1, 2 })
                 .WithKey(2, new[] { 3, 4, 4 }).Build();
 
         Because of = () =>
-            zipped = lookup.Zip(LookupBuilder
+            zipped = lookup.Zip(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build(), (x, y) => x + y);
 
@@ -34,7 +34,7 @@ namespace NOtherLookup.Tests
             lookup = null;
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Zip(LookupBuilder
+            exception = Catch.Exception(() => lookup.Zip(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build(), (x, y) => x + y));
 
@@ -48,7 +48,7 @@ namespace NOtherLookup.Tests
     public class When_zipping_lookup_with_null
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { "a", "b" })
                 .WithKey(2, new[] { "c", "d" }).Build();
 
@@ -65,12 +65,12 @@ namespace NOtherLookup.Tests
     public class When_zipping_lookups_with_null_result_selector
     {
         Establish context = () =>
-            lookup = LookupBuilder
+            lookup = Lookup.Builder
                 .WithKey(1, new[] { 1, 2 })
                 .WithKey(2, new[] { 3, 4, 4 }).Build();
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Zip(LookupBuilder
+            exception = Catch.Exception(() => lookup.Zip(Lookup.Builder
                 .WithKey(2, new[] { "e", "d" })
                 .WithKey(3, new[] { "f", "g" }).Build(), (Func<int, string, string>) null));
 
