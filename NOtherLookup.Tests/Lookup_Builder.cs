@@ -34,7 +34,7 @@ namespace NOtherLookup.Tests
         It should_provide_proper_count = () =>
             lookup.Count.ShouldEqual(2);
 
-        It should_allow_to_check_key_existence = () =>
+        It should_properly_indicate_key_existence = () =>
         {
             lookup.Contains(1).ShouldBeTrue();
             lookup.Contains(2).ShouldBeTrue();
@@ -43,5 +43,28 @@ namespace NOtherLookup.Tests
         };
 
         protected static ILookup<int, string> lookup;
+    }
+    
+    public class When_building_lookup_with_null_key
+    {
+        Because of = () =>
+            lookup = Lookup.Builder
+                .WithKey("not null", new[] { "a", "b" })
+                .WithKey(null, new[] { "e", "f" })
+                .Build();
+
+        It should_be_enumerable_and_contain_two_keys = () =>
+            lookup.Select(x => x.Key).ShouldContainExactly("not null", null);
+
+        It should_properly_return_values_for_null_key = () =>
+            lookup[null].ShouldContainExactly("e", "f");
+
+        It should_provide_proper_count = () =>
+            lookup.Count.ShouldEqual(2);
+
+        It should_properly_indicate_nukk_key_existence = () =>
+            lookup.Contains(null).ShouldBeTrue();
+
+        protected static ILookup<string, string> lookup;
     }
 }

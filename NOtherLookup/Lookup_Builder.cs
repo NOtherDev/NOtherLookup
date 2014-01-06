@@ -25,22 +25,39 @@ namespace NOtherLookup
 
         public class LookupBuilder<TKey, TValue>
         {
-            private readonly Dictionary<TKey, IEnumerable<TValue>> _data = new Dictionary<TKey, IEnumerable<TValue>>();
+            private readonly IDictionary<TKey, IEnumerable<TValue>> _data = new Dictionary<TKey, IEnumerable<TValue>>();
             
+            private bool _hasNullKey;
+            private IEnumerable<TValue> _valuesForNullKey;
+
             internal LookupBuilder()
             {
             }
 
             public LookupBuilder<TKey, TValue> WithKey(TKey key, IEnumerable<TValue> values)
             {
-                if (values != null)
+                if (key == null)
+                {
+                    _hasNullKey = true;
+                    _valuesForNullKey = values;
+                }
+                else
                     _data[key] = values;
                 return this;
             }
         
             public ILookup<TKey, TValue> Build()
             {
-                return _data.ToLookup();
+                return _data.Concat(NullKeyEntries).ToLookup();
+            }
+
+            private IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> NullKeyEntries
+            {
+                get
+                {
+                    if (_hasNullKey)
+                        yield return new KeyValuePair<TKey, IEnumerable<TValue>>(default(TKey), _valuesForNullKey);
+                }
             }
         }
     }

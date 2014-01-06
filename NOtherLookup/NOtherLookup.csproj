@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LookupImpl.cs" />
     <Compile Include="Lookup_Builder.cs" />
     <Compile Include="Lookup_Zip.cs" />
     <Compile Include="Lookup_Except.cs" />
