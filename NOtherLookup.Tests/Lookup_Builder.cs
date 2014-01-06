@@ -42,7 +42,7 @@ namespace NOtherLookup.Tests
             lookup.Contains(4).ShouldBeFalse();
         };
 
-        protected static ILookup<int, string> lookup;
+        private static ILookup<int, string> lookup;
     }
     
     public class When_building_lookup_with_null_key
@@ -62,9 +62,30 @@ namespace NOtherLookup.Tests
         It should_provide_proper_count = () =>
             lookup.Count.ShouldEqual(2);
 
-        It should_properly_indicate_nukk_key_existence = () =>
+        It should_properly_indicate_null_key_existence = () =>
             lookup.Contains(null).ShouldBeTrue();
 
-        protected static ILookup<string, string> lookup;
+        private static ILookup<string, string> lookup;
+    }
+
+    public class When_modifying_source_collection_after_lookup_was_built
+    {
+        Establish context = () =>
+        {
+            source = new List<string>() { "a", "b" };
+
+            lookup = Lookup.Builder
+                .WithKey("key", source)
+                .Build();
+        };
+
+        Because of = () =>
+            source.Add("c");
+
+        It should_not_be_dependent_upon_source_collection_modifications = () =>
+            lookup["key"].ShouldContainExactly("a", "b");
+
+        private static ILookup<string, string> lookup;
+        private static List<string> source;
     }
 }
