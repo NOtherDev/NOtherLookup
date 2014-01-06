@@ -88,4 +88,101 @@ namespace NOtherLookup.Tests
         private static ILookup<string, string> lookup;
         private static List<string> source;
     }
+
+    public class When_building_lookup_with_custom_comparer
+    {
+        Because of = () =>
+            lookup = Lookup.Builder
+                .WithComparer(new StringLengthComparer())
+                .WithKey("one", new[] { "a", "b" })
+                .WithKey("two", new[] { "e", "f" })
+                .WithKey("three", new[] { "c", "d", "d" })
+                .Build();
+
+        private class StringLengthComparer : IEqualityComparer<string>
+        {
+            public bool Equals(string x, string y)
+            {
+                return x.Length == y.Length;
+            }
+
+            public int GetHashCode(string obj)
+            {
+                return obj.Length;
+            }
+        }
+
+        It should_be_enumerable_and_contain_two_keys_respecting_comparer = () =>
+            lookup.Select(x => x.Key).ShouldContainExactly("one", "three");
+
+        It should_keep_the_latest_definition_for_key_respecting_comparer = () =>
+            lookup["one"].ShouldContainExactly("e", "f");
+
+        It should_use_comparer_to_look_for_values = () =>
+        {
+            lookup["two"].ShouldBeTheSameAs(lookup["one"]);
+            lookup["abc"].ShouldBeTheSameAs(lookup["one"]);
+        };
+
+        It should_provide_proper_count_respecting_comparer = () =>
+            lookup.Count.ShouldEqual(2);
+
+        It should_properly_indicate_key_existence_respecting_comparer = () =>
+        {
+            lookup.Contains("one").ShouldBeTrue();
+            lookup.Contains("two").ShouldBeTrue();
+            lookup.Contains("abc").ShouldBeTrue();
+            lookup.Contains("four").ShouldBeFalse();
+        };
+
+        private static ILookup<string, string> lookup;
+    }
+
+    public class When_building_lookup_with_custom_comparer_that_does_magic_with_nulls
+    {
+        Because of = () =>
+            lookup = Lookup.Builder
+                .WithComparer(new StringLengthComparerWithStringifiedNull())
+                .WithKey("four", new[] { "a", "b" })
+                .WithKey(null, new[] { "c", "d" })
+                .Build();
+
+        private class StringLengthComparerWithStringifiedNull : IEqualityComparer<string>
+        {
+            private string StringifyNullIfNeeded(string obj)
+            {
+                return obj ?? "null";
+            }
+
+            public bool Equals(string x, string y)
+            {
+                return StringifyNullIfNeeded(x).Length == StringifyNullIfNeeded(y).Length;
+            }
+
+            public int GetHashCode(string obj)
+            {
+                return StringifyNullIfNeeded(obj).Length;
+            }
+        }
+
+        It should_be_enumerable_and_contain_one_key_respecting_comparer = () =>
+            lookup.Select(x => x.Key).ShouldContainExactly("four");
+
+        It should_keep_the_latest_definition_for_key_respecting_comparer = () =>
+            lookup["four"].ShouldContainExactly("c", "d");
+
+        It should_use_comparer_to_look_for_values = () =>
+            lookup[null].ShouldBeTheSameAs(lookup["four"]);
+
+        It should_provide_proper_count_respecting_comparer = () =>
+            lookup.Count.ShouldEqual(1);
+
+        It should_properly_indicate_key_existence_respecting_comparer = () =>
+        {
+            lookup.Contains("four").ShouldBeTrue();
+            lookup.Contains(null).ShouldBeTrue();
+        };
+
+        private static ILookup<string, string> lookup;
+    }
 }

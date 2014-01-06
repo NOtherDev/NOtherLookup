@@ -31,17 +31,17 @@ namespace NOtherLookup
             return dictionary.ToLookup<TKey, TValue[], TValue>();
         }  
         
-        internal static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> dictionary)
+        internal static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> dictionary, IEqualityComparer<TKey> comparer = null)
         {
-            return dictionary.ToLookup<TKey, IEnumerable<TValue>, TValue>();
+            return dictionary.ToLookup<TKey, IEnumerable<TValue>, TValue>(comparer);
         }
 
-        private static ILookup<TKey, TValue> ToLookup<TKey, TCollection, TValue>(this IEnumerable<KeyValuePair<TKey, TCollection>> dictionary)
+        private static ILookup<TKey, TValue> ToLookup<TKey, TCollection, TValue>(this IEnumerable<KeyValuePair<TKey, TCollection>> dictionary, IEqualityComparer<TKey> comparer = null)
             where TCollection : IEnumerable<TValue>
         {
             return dictionary.Where(x => !Equals(x.Value, default(TCollection)))
                 .SelectMany(kv => kv.Value, (kv, v) => new { kv.Key, Value = v })
-                .ToLookup(x => x.Key, x => x.Value);
+                .ToLookup(x => x.Key, x => x.Value, comparer);
         }
     }
 }
