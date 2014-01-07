@@ -5,6 +5,7 @@ using Machine.Specifications;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("Lookup.Empty")]
     public class When_requesting_empty_lookup
     {
         Because of = () =>

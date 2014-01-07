@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.Select")]
     public class When_filtering_lookup_by_values
     {
         Establish context = () =>
@@ -24,7 +25,8 @@ namespace NOtherLookup.Tests
 
         private static ILookup<string, int> lookup, filtered;
     }
-    
+
+    [Subject("ILookup.Select")]
     public class When_filtering_null_lookup_by_values
     {
         Establish context = () =>
@@ -38,8 +40,9 @@ namespace NOtherLookup.Tests
 
         private static ILookup<string, int> lookup;
         private static Exception exception;
-    }   
-    
+    }
+
+    [Subject("ILookup.Select")]
     public class When_traversing_lookup_with_null_function
     {
         Establish context = () =>

@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.Except")]
     public class When_creating_lookups_difference
     {
         Establish context = () =>
@@ -31,7 +32,8 @@ namespace NOtherLookup.Tests
         
         private static ILookup<int, string> lookup, difference;
     }
-    
+
+    [Subject("ILookup.Except")]
     public class When_creating_difference_of_null_and_lookup
     {
         Establish context = () =>
@@ -49,6 +51,7 @@ namespace NOtherLookup.Tests
         private static Exception exception;
     }
 
+    [Subject("ILookup.Except")]
     public class When_creating_difference_of_lookup_and_null
     {
         Establish context = () =>

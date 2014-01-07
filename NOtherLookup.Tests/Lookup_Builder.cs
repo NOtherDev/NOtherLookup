@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("Lookup.Builder")]
     public class When_building_lookup
     {
         Because of = () =>
@@ -44,7 +45,8 @@ namespace NOtherLookup.Tests
 
         private static ILookup<int, string> lookup;
     }
-    
+
+    [Subject("Lookup.Builder")]
     public class When_building_lookup_with_null_key
     {
         Because of = () =>
@@ -68,6 +70,7 @@ namespace NOtherLookup.Tests
         private static ILookup<string, string> lookup;
     }
 
+    [Subject("Lookup.Builder")]
     public class When_modifying_source_collection_after_lookup_was_built
     {
         Establish context = () =>
@@ -89,6 +92,7 @@ namespace NOtherLookup.Tests
         private static List<string> source;
     }
 
+    [Subject("Lookup.Builder")]
     public class When_building_lookup_with_custom_comparer
     {
         Because of = () =>
@@ -125,6 +129,7 @@ namespace NOtherLookup.Tests
         private static ILookup<string, string> lookup;
     }
 
+    [Subject("Lookup.Builder")]
     public class When_building_lookup_with_custom_comparer_that_does_magic_with_nulls
     {
         Because of = () =>

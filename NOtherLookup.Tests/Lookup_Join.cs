@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.Join")]
     public class When_joining_lookups
     {
         Establish context = () =>
@@ -27,7 +28,8 @@ namespace NOtherLookup.Tests
         private static ILookup<int, int> outer;
         private static ILookup<int, string> joined;
     }
-    
+
+    [Subject("ILookup.Join")]
     public class When_joining_null_with_lookup
     {
         Establish context = () =>
@@ -44,7 +46,8 @@ namespace NOtherLookup.Tests
         private static ILookup<int, string> lookup;
         private static Exception exception;
     }
-    
+
+    [Subject("ILookup.Join")]
     public class When_joining_lookup_with_null
     {
         Establish context = () =>
@@ -62,6 +65,7 @@ namespace NOtherLookup.Tests
         private static Exception exception;
     }
 
+    [Subject("ILookup.Join")]
     public class When_joining_lookups_with_null_result_selector
     {
         Establish context = () =>

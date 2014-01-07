@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("IDictionary.ToLookup")]
     public class Dictionary_ToLookup_basic
     {
         [Behaviors]
@@ -106,6 +107,7 @@ namespace NOtherLookup.Tests
         }
     }
 
+    [Subject("IDictionary.ToLookup")]
     public class Dictionary_ToLookup_null_values
     {
         public class When_converting_IDictionary_of_IEnumerables_with_null_to_lookup
@@ -181,6 +183,7 @@ namespace NOtherLookup.Tests
         }
     }
 
+    [Subject("IDictionary.ToLookup")]
     public class Dictionary_ToLookup_null_source
     {
         public class When_converting_null_of_IEnumerables_to_lookup
@@ -244,6 +247,7 @@ namespace NOtherLookup.Tests
         }
     }
 
+    [Subject("IDictionary.ToLookup")]
     public class Dictionary_ToLookup_comparer
     {
         [Behaviors]

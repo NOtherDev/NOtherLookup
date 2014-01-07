@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.Concat")]
     public class When_concatenating_lookups
     {
         Establish context = () =>
@@ -30,7 +31,8 @@ namespace NOtherLookup.Tests
         
         private static ILookup<int, string> lookup, concatenated;
     }
-    
+
+    [Subject("ILookup.Concat")]
     public class When_concatenating_null_with_lookup
     {
         Establish context = () =>
@@ -47,7 +49,8 @@ namespace NOtherLookup.Tests
         private static ILookup<int, string> lookup;
         private static Exception exception;
     }
-    
+
+    [Subject("ILookup.Concat")]
     public class When_concatenating_lookup_with_null
     {
         Establish context = () =>

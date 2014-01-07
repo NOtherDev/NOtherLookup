@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.Intersect")]
     public class When_intersecting_lookups
     {
         Establish context = () =>
@@ -28,7 +29,8 @@ namespace NOtherLookup.Tests
         
         private static ILookup<int, string> lookup, intersection;
     }
-    
+
+    [Subject("ILookup.Intersect")]
     public class When_intersecting_null_with_lookup
     {
         Establish context = () =>
@@ -45,7 +47,8 @@ namespace NOtherLookup.Tests
         private static ILookup<int, string> lookup;
         private static Exception exception;
     }
-    
+
+    [Subject("ILookup.Intersect")]
     public class When_intersecting_lookup_with_null
     {
         Establish context = () =>

@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.ToDictionary")]
     public class When_converting_lookup_to_IDictionary
     {
         Establish context = () =>
@@ -29,6 +30,7 @@ namespace NOtherLookup.Tests
         private static IDictionary<int, IEnumerable<string>> dictionary;
     }
 
+    [Subject("ILookup.ToDictionary")]
     public class When_converting_null_to_IDictionary
     {
         Establish context = () =>

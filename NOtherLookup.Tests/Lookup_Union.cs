@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("ILookup.Union")]
     public class When_unionizing_lookups
     {
         Establish context = () =>
@@ -31,6 +32,7 @@ namespace NOtherLookup.Tests
         private static ILookup<int, string> lookup, concatenated;
     }
 
+    [Subject("ILookup.Union")]
     public class When_unionizing_null_with_lookup
     {
         Establish context = () =>
@@ -48,6 +50,7 @@ namespace NOtherLookup.Tests
         private static Exception exception;
     }
 
+    [Subject("ILookup.Union")]
     public class When_unionizing_lookup_with_null
     {
         Establish context = () =>

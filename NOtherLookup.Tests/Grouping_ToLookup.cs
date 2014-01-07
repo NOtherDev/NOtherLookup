@@ -6,6 +6,7 @@ using NOtherLookup.Tests.Utils;
 
 namespace NOtherLookup.Tests
 {
+    [Subject("IEnumerable<IGrouping>.ToLookup")]
     public class When_converting_IEnumerable_of_IGrouping_to_lookup
     {
         Establish context = () =>
@@ -28,7 +29,8 @@ namespace NOtherLookup.Tests
         private static IEnumerable<IGrouping<string, int>> grouping;
         private static ILookup<string, int> lookup;
     }
-
+    
+    [Subject("IEnumerable<IGrouping>.ToLookup")]
     public class When_converting_null_IEnumerable_of_IGrouping_to_lookup
     {
         Establish context = () =>
