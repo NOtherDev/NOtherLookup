@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Collections.Generic;
 using System;
@@ -6,6 +7,7 @@ namespace NOtherLookup
 {
     public static partial class LookupExtensions
     {
+        [Pure]
         public static ILookup<TKey, TResult> Zip<TKey, TFirst, TSecond, TResult>(this ILookup<TKey, TFirst> first,
             ILookup<TKey, TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {

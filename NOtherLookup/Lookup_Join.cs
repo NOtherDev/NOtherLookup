@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Collections.Generic;
 using System;
@@ -6,6 +7,7 @@ namespace NOtherLookup
 {
     public static partial class LookupExtensions
     {
+        [Pure]
         public static ILookup<TKey, TResult> Join<TKey, TOuter, TInner, TResult>(this ILookup<TKey, TOuter> outer,
             ILookup<TKey, TInner> inner, Func<TOuter, TInner, TResult> resultSelector)
         {
