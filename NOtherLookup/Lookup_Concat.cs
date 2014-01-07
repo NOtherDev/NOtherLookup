@@ -8,12 +8,13 @@ namespace NOtherLookup
     public static partial class LookupExtensions
     {
         [Pure]
-        public static ILookup<TKey, TValue> Concat<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)
+        public static ILookup<TKey, TValue> Concat<TKey, TValue>(
+            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer = null)
         {
             if (first == null)
                 throw new ArgumentNullException("first");
 
-            return ConcatImpl(first, second).ToLookup();
+            return ConcatImpl(first, second).ToLookup(comparer);
         }
 
         private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> ConcatImpl<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)

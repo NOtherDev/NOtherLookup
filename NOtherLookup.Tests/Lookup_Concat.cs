@@ -30,6 +30,27 @@ namespace NOtherLookup.Tests
         };
         
         private static ILookup<int, string> lookup, concatenated;
+    } 
+    
+    [Subject("ILookup.Concat")]
+    public class When_concatenating_lookups_with_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey("one", new[] { "a", "b" }).Build();
+
+        Because of = () =>
+            concatenated = lookup.Concat(Lookup.Builder
+                .WithKey("two", new[] { "b", "c" }).Build(), new StringLengthComparer());
+
+        It should_create_lookup_with_keys_from_both_lookups_respecting_comparer = () =>
+            concatenated.Count.ShouldEqual(1);
+
+        It should_have_concatenated_IEnumerables_inside_respecting_comparer = () =>
+            concatenated["one"].ShouldContainExactly("a", "b", "b", "c");
+        
+        private static ILookup<string, string> lookup;
+        private static ILookup<string, string> concatenated;
     }
 
     [Subject("ILookup.Concat")]
