@@ -5,31 +5,31 @@ using System;
 
 namespace NOtherLookup
 {
-    public static partial class DictionaryExtensions
+    public static class DictionaryExtensions
     {
         [Pure]
-        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, IEnumerable<TValue>> dictionary)
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, IEnumerable<TValue>> dictionary, IEqualityComparer<TKey> comparer = null)
         {
-            return dictionary.ToLookup<TKey, IEnumerable<TValue>, TValue>();
+            return dictionary.ToLookup<TKey, IEnumerable<TValue>, TValue>(comparer);
         }
 
         [Pure]
-        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, IList<TValue>> dictionary)
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, IList<TValue>> dictionary, IEqualityComparer<TKey> comparer = null)
         {
-            return dictionary.ToLookup<TKey, IList<TValue>, TValue>();
+            return dictionary.ToLookup<TKey, IList<TValue>, TValue>(comparer);
         }
 
         [Pure]
-        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, ICollection<TValue>> dictionary)
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, ICollection<TValue>> dictionary, IEqualityComparer<TKey> comparer = null)
         {
-            return dictionary.ToLookup<TKey, ICollection<TValue>, TValue>();
+            return dictionary.ToLookup<TKey, ICollection<TValue>, TValue>(comparer);
         }
 
         [Pure]
-        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, TValue[]> dictionary)
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IDictionary<TKey, TValue[]> dictionary, IEqualityComparer<TKey> comparer = null)
         {
-            return dictionary.ToLookup<TKey, TValue[], TValue>();
-        }  
+            return dictionary.ToLookup<TKey, TValue[], TValue>(comparer);
+        } 
         
         internal static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> dictionary, IEqualityComparer<TKey> comparer = null)
         {

@@ -99,23 +99,6 @@ namespace NOtherLookup.Tests
                 .WithKey("three", new[] { "c", "d", "d" })
                 .Build();
 
-        private class StringLengthComparer : IEqualityComparer<string>
-        {
-            public bool Equals(string x, string y)
-            {
-                if (x == null && y == null)
-                    return true;
-                if (x == null || y == null)
-                    return false;
-                return x.Length == y.Length;
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return obj.Length;
-            }
-        }
-
         It should_be_enumerable_and_contain_two_keys_respecting_comparer = () =>
             lookup.Select(x => x.Key).ShouldContainExactly("one", "three");
 
