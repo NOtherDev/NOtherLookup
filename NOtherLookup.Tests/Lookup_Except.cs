@@ -32,6 +32,27 @@ namespace NOtherLookup.Tests
         
         private static ILookup<int, string> lookup, difference;
     }
+    
+    [Subject("ILookup.Except")]
+    public class When_creating_lookups_difference_with_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey("one", new[] { "a", "b" }).Build();
+
+        Because of = () =>
+            difference = lookup.Except(Lookup.Builder
+                .WithKey("two", new[] { "b", "c" }).Build(), new StringLengthComparer());
+
+        It should_create_lookup_with_keys_from_difference_respecting_comparer = () =>
+            difference.Count.ShouldEqual(1);
+
+        It should_have_only_difference_of_IEnumerables_inside_respecting_comparer = () =>
+            difference["one"].ShouldContainExactly("a");
+        
+        private static ILookup<string, string> lookup;
+        private static ILookup<string, string> difference;
+    }
 
     [Subject("ILookup.Except")]
     public class When_creating_difference_of_null_and_lookup
