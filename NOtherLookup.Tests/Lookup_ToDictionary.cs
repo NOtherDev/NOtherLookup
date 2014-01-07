@@ -28,6 +28,30 @@ namespace NOtherLookup.Tests
 
         private static ILookup<int, string> lookup;
         private static IDictionary<int, IEnumerable<string>> dictionary;
+    } 
+    
+    [Subject("ILookup.ToDictionary")]
+    public class When_converting_lookup_to_IDictionary_with_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey("one", new[] { "a", "b" })
+                .WithKey("two", new[] { "c", "d" }).Build();
+
+        Because of = () =>
+            dictionary = lookup.ToDictionary(new StringLengthComparer());
+
+        It should_create_dictionary_with_all_keys_from_lookup_respecting_comparer = () =>
+            dictionary.Count.ShouldEqual(1);
+
+        It should_have_valid_values_inside_with_all_elements_for_key_respecting_comparer = () =>
+        {
+            dictionary["one"].ShouldContainExactly("a", "b", "c", "d");
+            dictionary["two"].ShouldContainExactly("a", "b", "c", "d");
+        };
+
+        private static ILookup<string, string> lookup;
+        private static IDictionary<string, IEnumerable<string>> dictionary;
     }
 
     [Subject("ILookup.ToDictionary")]

@@ -8,9 +8,9 @@ namespace NOtherLookup
     public static partial class GroupingExtensions
     {
         [Pure]
-        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<IGrouping<TKey, TValue>> groupings)
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<IGrouping<TKey, TValue>> groupings, IEqualityComparer<TKey> comparer = null)
         {
-            return groupings.Select(x => new KeyValuePair<TKey, IEnumerable<TValue>>(x.Key, x)).ToLookup();
+            return groupings.Select(x => new KeyValuePair<TKey, IEnumerable<TValue>>(x.Key, x)).ToLookup(comparer);
         }
     }
 }
