@@ -103,6 +103,10 @@ namespace NOtherLookup.Tests
         {
             public bool Equals(string x, string y)
             {
+                if (x == null && y == null)
+                    return true;
+                if (x == null || y == null)
+                    return false;
                 return x.Length == y.Length;
             }
 
@@ -143,7 +147,7 @@ namespace NOtherLookup.Tests
         Because of = () =>
             lookup = Lookup.Builder
                 .WithComparer(new StringLengthComparerWithStringifiedNull())
-                .WithKey("four", new[] { "a", "b" })
+                .WithKey("", new[] { "a", "b" })
                 .WithKey(null, new[] { "c", "d" })
                 .Build();
 
@@ -151,7 +155,7 @@ namespace NOtherLookup.Tests
         {
             private string StringifyNullIfNeeded(string obj)
             {
-                return obj ?? "null";
+                return obj ?? String.Empty;
             }
 
             public bool Equals(string x, string y)
@@ -166,20 +170,20 @@ namespace NOtherLookup.Tests
         }
 
         It should_be_enumerable_and_contain_one_key_respecting_comparer = () =>
-            lookup.Select(x => x.Key).ShouldContainExactly("four");
+            lookup.Select(x => x.Key).ShouldContainExactly("");
 
         It should_keep_the_latest_definition_for_key_respecting_comparer = () =>
-            lookup["four"].ShouldContainExactly("c", "d");
+            lookup[""].ShouldContainExactly("c", "d");
 
         It should_use_comparer_to_look_for_values = () =>
-            lookup[null].ShouldBeTheSameAs(lookup["four"]);
+            lookup[null].ShouldBeTheSameAs(lookup[""]);
 
         It should_provide_proper_count_respecting_comparer = () =>
             lookup.Count.ShouldEqual(1);
 
         It should_properly_indicate_key_existence_respecting_comparer = () =>
         {
-            lookup.Contains("four").ShouldBeTrue();
+            lookup.Contains("").ShouldBeTrue();
             lookup.Contains(null).ShouldBeTrue();
         };
 
