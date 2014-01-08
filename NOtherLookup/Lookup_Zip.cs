@@ -19,31 +19,26 @@ namespace NOtherLookup
             if (resultSelector == null)
                 throw new ArgumentNullException("resultSelector");
 
-            return ZipImpl(first, second, resultSelector, comparer).ToLookup(comparer);
+            return first.Keys(comparer)
+                .Select(key => Zip_ValuesForKey(key, first, second, resultSelector, comparer))
+                .ToLookup(comparer);
         }
 
-        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TResult>>> ZipImpl<TKey, TFirst, TSecond, TResult>(
-            ILookup<TKey, TFirst> first, ILookup<TKey, TSecond> second,
-            Func<TFirst, TSecond, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+        private static KeyValuePair<TKey, IEnumerable<TResult>> Zip_ValuesForKey<TKey, TFirst, TSecond, TResult>(TKey key, IEnumerable<IGrouping<TKey, TFirst>> first, IEnumerable<IGrouping<TKey, TSecond>> second, Func<TFirst, TSecond, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
-            var firstKeys = new HashSet<TKey>(first.Select(x => x.Key), comparer);
-
-            foreach (var key in firstKeys)
+            using (var iterator1 = first.ValuesForKey(key, comparer).GetEnumerator())
             {
-                using (var iterator1 = first.ValuesForKey(key, comparer).GetEnumerator())
-                {   
-                    var values = new List<TResult>();
+                var values = new List<TResult>();
 
-                    using (var iterator2 = second.ValuesForKey(key, comparer).GetEnumerator())
+                using (var iterator2 = second.ValuesForKey(key, comparer).GetEnumerator())
+                {
+                    while (iterator1.MoveNext() && iterator2.MoveNext())
                     {
-                        while (iterator1.MoveNext() && iterator2.MoveNext())
-                        {
-                            values.Add(resultSelector(iterator1.Current, iterator2.Current));
-                        }
+                        values.Add(resultSelector(iterator1.Current, iterator2.Current));
                     }
-
-                    yield return new KeyValuePair<TKey, IEnumerable<TResult>>(key, values);
                 }
+
+                return Pair.Of(key, values);
             }
         }
     }

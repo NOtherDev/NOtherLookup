@@ -18,27 +18,21 @@ namespace NOtherLookup
         }
 
         private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> UnionImpl<TKey, TValue>(
-            IEnumerable<IGrouping<TKey, TValue>> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer)
+            ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer)
         {
-            var secondKeys = new HashSet<TKey>(second.Select(x => x.Key), comparer);
-            foreach (var grouping in first)
+            var firstKeys = first.Keys(comparer);
+            var secondKeys = second.Keys(comparer);
+
+            foreach (var key in firstKeys)
             {
-                secondKeys.Remove(grouping.Key);
-                yield return UnionValuesForKey(grouping, second, comparer);
+                secondKeys.Remove(key);
+                yield return Pair.Of(key, first.ValuesForKey(key, comparer).Union(second.ValuesForKey(key, comparer)));
             }
 
             foreach (var newKey in secondKeys)
             {
-                yield return new KeyValuePair<TKey, IEnumerable<TValue>>(newKey, second[newKey]);
+                yield return Pair.Of(newKey, second.ValuesForKey(newKey, comparer));
             }
-        }
-
-        private static KeyValuePair<TKey, IEnumerable<TValue>> UnionValuesForKey<TKey, TValue>(
-            IGrouping<TKey, TValue> current, IEnumerable<IGrouping<TKey, TValue>> second, IEqualityComparer<TKey> comparer)
-        {
-            comparer = comparer ?? EqualityComparer<TKey>.Default;
-            var secondValues = second.Where(x => comparer.Equals(x.Key, current.Key)).SelectMany(x => x);
-            return new KeyValuePair<TKey, IEnumerable<TValue>>(current.Key, current.Union(secondValues));
         }
     }
 }

@@ -38,11 +38,13 @@ namespace NOtherLookup.Tests
     {
         Establish context = () =>
             lookup = Lookup.Builder
-                .WithKey("one", new[] { "a", "b" }).Build();
+                .WithKey("one", new[] { "a", "c" })
+                .WithKey("ONE", new[] { "b" }).Build();
 
         Because of = () =>
             difference = lookup.Except(Lookup.Builder
-                .WithKey("two", new[] { "b", "c" }).Build(), new StringLengthComparer());
+                .WithKey("two", new[] { "d", "c" })
+                .WithKey("TWO", new[] { "b" }).Build(), new StringLengthComparer());
 
         It should_create_lookup_with_keys_from_difference_respecting_comparer = () =>
             difference.Count.ShouldEqual(1);

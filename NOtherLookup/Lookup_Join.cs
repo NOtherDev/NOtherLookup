@@ -19,29 +19,15 @@ namespace NOtherLookup
             if (resultSelector == null)
                 throw new ArgumentNullException("resultSelector");
 
-            return JoinImpl(outer, inner, resultSelector, comparer).ToLookup(comparer);
+            return outer.SelectMany(o => o, (o, e) => Join_ValuesForKey(o.Key, e, inner, resultSelector, comparer))
+                .ToLookup(comparer);
         }
 
-        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TResult>>> JoinImpl<TKey, TOuter, TInner, TResult>(
-            IEnumerable<IGrouping<TKey, TOuter>> outer, ILookup<TKey, TInner> inner, 
-            Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
-        {
-            foreach (var outerGrouping in outer)
-            {
-                foreach (var outerElement in outerGrouping)
-                {
-                    yield return JoinValuesForKey(outerGrouping.Key, outerElement, inner, resultSelector, comparer);
-                }
-            }
-        }
-
-        private static KeyValuePair<TKey, IEnumerable<TResult>> JoinValuesForKey<TKey, TOuter, TInner, TResult>(
+        private static KeyValuePair<TKey, IEnumerable<TResult>> Join_ValuesForKey<TKey, TOuter, TInner, TResult>(
             TKey key, TOuter current, IEnumerable<IGrouping<TKey, TInner>> inner,
             Func<TOuter, TInner, TResult> resultSelector, IEqualityComparer<TKey> comparer)
         {
-            comparer = comparer ?? EqualityComparer<TKey>.Default;
-            var values = inner.Where(x => comparer.Equals(x.Key, key)).SelectMany(x => x).Select(x => resultSelector(current, x));
-            return new KeyValuePair<TKey, IEnumerable<TResult>>(key, values);
+            return Pair.Of(key, inner.ValuesForKey(key, comparer).Select(x => resultSelector(current, x)));
         }
     }
 }

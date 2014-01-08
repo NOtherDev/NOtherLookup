@@ -18,18 +18,19 @@ namespace NOtherLookup
         }
         
         private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> IntersectImpl<TKey, TValue>(
-            IEnumerable<IGrouping<TKey, TValue>> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer)
+            ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer)
         {
-            var secondKeys = new HashSet<TKey>(second.Select(x => x.Key), comparer);
-            return first.Where(g => secondKeys.Remove(g.Key)).Select(g => IntersectValuesForKey(g, second, comparer));
+            var firstKeys = first.Keys(comparer);
+            var secondKeys = second.Keys(comparer);
+
+            return firstKeys.Where(x => secondKeys.Remove(x))
+                .Select(x => Intersect_ValuesForKey(x, first.ValuesForKey(x, comparer), second, comparer));
         }
 
-        private static KeyValuePair<TKey, IEnumerable<TValue>> IntersectValuesForKey<TKey, TValue>(
-            IGrouping<TKey, TValue> current, IEnumerable<IGrouping<TKey, TValue>> second, IEqualityComparer<TKey> comparer)
+        private static KeyValuePair<TKey, IEnumerable<TValue>> Intersect_ValuesForKey<TKey, TValue>(
+            TKey key, IEnumerable<TValue> current, IEnumerable<IGrouping<TKey, TValue>> second, IEqualityComparer<TKey> comparer)
         {
-            comparer = comparer ?? EqualityComparer<TKey>.Default;
-            var matching = second.Where(x => comparer.Equals(x.Key, current.Key)).SelectMany(x => x);
-            return new KeyValuePair<TKey, IEnumerable<TValue>>(current.Key, current.Intersect(matching));
+            return Pair.Of(key, current.Intersect(second.ValuesForKey(key, comparer)));
         }
     }
 }

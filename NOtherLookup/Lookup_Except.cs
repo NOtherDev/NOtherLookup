@@ -16,15 +16,9 @@ namespace NOtherLookup
             if (second == null)
                 throw new ArgumentNullException("second");
 
-            return first.Select(x => ExceptValuesForKey(x, second, comparer)).ToLookup(comparer);
-        }
-
-        private static KeyValuePair<TKey, IEnumerable<TValue>> ExceptValuesForKey<TKey, TValue>(
-            IGrouping<TKey, TValue> current, IEnumerable<IGrouping<TKey, TValue>> second, IEqualityComparer<TKey> comparer)
-        {
-            comparer = comparer ?? EqualityComparer<TKey>.Default;
-            var excluded = second.Where(x => comparer.Equals(current.Key, x.Key)).SelectMany(x => x);
-            return new KeyValuePair<TKey, IEnumerable<TValue>>(current.Key, current.Except(excluded));
+            return first
+                .Select(x => Pair.Of(x.Key, x.Except(second.ValuesForKey(x.Key, comparer))))
+                .ToLookup(comparer);
         }
     }
 }

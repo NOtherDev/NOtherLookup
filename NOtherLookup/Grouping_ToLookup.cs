@@ -10,7 +10,7 @@ namespace NOtherLookup
         [Pure]
         public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<IGrouping<TKey, TValue>> groupings, IEqualityComparer<TKey> comparer = null)
         {
-            return groupings.Select(x => new KeyValuePair<TKey, IEnumerable<TValue>>(x.Key, x)).ToLookup(comparer);
+            return groupings.Select(x => Pair.Of(x.Key, x)).ToLookup(comparer);
         }
     }
 }

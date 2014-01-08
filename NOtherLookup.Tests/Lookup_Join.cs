@@ -34,17 +34,19 @@ namespace NOtherLookup.Tests
     {
         Establish context = () =>
             outer = Lookup.Builder
-                .WithKey("one", new[] { 3, 4, 4 }).Build();
+                .WithKey("one", new[] { 1, 2 })
+                .WithKey("ONE", new[] { 3 }).Build();
 
         Because of = () =>
             joined = outer.Join(Lookup.Builder
-                .WithKey("two", new[] { "e", "d" }).Build(), (x, y) => x + y, new StringLengthComparer());
+                .WithKey("two", new[] { "a", "b" })
+                .WithKey("TWO", new[] { "c" }).Build(), (x, y) => x + y, new StringLengthComparer());
 
         It should_create_lookup_with_keys_from_outer_lookup_that_has_matching_keys_in_inner_lookup_respecting_comparer = () =>
             joined.Single().Key.ShouldEqual("one");
 
         It should_have_elements_joined_according_to_selector_respecting_comparer = () => 
-            joined["two"].ShouldContainExactly("3e", "3d", "4e", "4d", "4e", "4d");
+            joined["two"].ShouldContainExactly("1a", "1b", "1c", "2a", "2b", "2c", "3a", "3b", "3c");
         
         private static ILookup<string, int> outer;
         private static ILookup<string, string> joined;

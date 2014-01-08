@@ -37,17 +37,19 @@ namespace NOtherLookup.Tests
     {
         Establish context = () =>
             lookup = Lookup.Builder
-                .WithKey("one", new[] { "a", "b" }).Build();
+                .WithKey("one", new[] { "a", "b" })
+                .WithKey("ONE", new[] { "c" }).Build();
 
         Because of = () =>
             concatenated = lookup.Concat(Lookup.Builder
-                .WithKey("two", new[] { "b", "c" }).Build(), new StringLengthComparer());
+                .WithKey("two", new[] { "b", "c" })
+                .WithKey("TWO", new[] { "d" }).Build(), new StringLengthComparer());
 
         It should_create_lookup_with_keys_from_both_lookups_respecting_comparer = () =>
             concatenated.Count.ShouldEqual(1);
 
         It should_have_concatenated_IEnumerables_inside_respecting_comparer = () =>
-            concatenated["two"].ShouldContainExactly("a", "b", "b", "c");
+            concatenated["two"].ShouldContainExactly("a", "b", "c", "b", "c", "d");
         
         private static ILookup<string, string> lookup;
         private static ILookup<string, string> concatenated;

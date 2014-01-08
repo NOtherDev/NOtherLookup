@@ -20,16 +20,16 @@ namespace NOtherLookup
         private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> ConcatImpl<TKey, TValue>(
             IEnumerable<IGrouping<TKey, TValue>> first, ILookup<TKey, TValue> second)
         {
-            var secondKeys = new HashSet<TKey>(second.Select(x => x.Key));
+            var secondKeys = second.Keys();
             foreach (var grouping in first)
             {
                 secondKeys.Remove(grouping.Key);
-                yield return new KeyValuePair<TKey, IEnumerable<TValue>>(grouping.Key, grouping.Concat(second[grouping.Key]));
+                yield return Pair.Of(grouping.Key, grouping.Concat(second[grouping.Key]));
             }
 
             foreach (var newKey in secondKeys)
             {
-                yield return new KeyValuePair<TKey, IEnumerable<TValue>>(newKey, second[newKey]);
+                yield return Pair.Of(newKey, second[newKey]);
             }
         }
     }
