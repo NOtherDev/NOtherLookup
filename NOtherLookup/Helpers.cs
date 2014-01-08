@@ -6,16 +6,21 @@ namespace NOtherLookup
 {
     internal static class Helpers
     {
-        public static IEnumerable<TValue> ValuesForKey<TKey, TValue>(this IEnumerable<IGrouping<TKey, TValue>> lookup, TKey key, IEqualityComparer<TKey> comparer)
+        private static IEqualityComparer<TKey> NotNullComparer<TKey>(IEqualityComparer<TKey> comparer)
         {
-            comparer = comparer ?? EqualityComparer<TKey>.Default;
-            return lookup.Where(x => comparer.Equals(x.Key, key)).SelectMany(x => x);
+            return comparer ?? EqualityComparer<TKey>.Default;
         }
 
-        public static ISet<TKey> Keys<TKey, TValue>(this ILookup<TKey, TValue> lookup, IEqualityComparer<TKey> comparer = null)
+        public static IEnumerable<TValue> ValuesForKey<TKey, TValue>(
+            this IEnumerable<IGrouping<TKey, TValue>> lookup, TKey key, IEqualityComparer<TKey> comparer)
         {
-            comparer = comparer ?? EqualityComparer<TKey>.Default;
-            return new HashSet<TKey>(lookup.Select(x => x.Key), comparer);
+            return lookup.Where(x => NotNullComparer(comparer).Equals(x.Key, key)).SelectMany(x => x);
+        }
+
+        public static ISet<TKey> Keys<TKey, TValue>(
+            this ILookup<TKey, TValue> lookup, IEqualityComparer<TKey> comparer = null)
+        {
+            return new HashSet<TKey>(lookup.Select(x => x.Key), NotNullComparer(comparer));
         }
     }
 
