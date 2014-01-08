@@ -31,7 +31,7 @@ namespace NOtherLookup.Tests
     }
 
     [Subject("ILookup.Intersect")]
-    public class When_intersecting_lookups_with_comparer
+    public class When_intersecting_lookups_with_key_comparer
     {
         Establish context = () =>
             lookup = Lookup.Builder

@@ -9,7 +9,7 @@ namespace NOtherLookup
     {
         [Pure]
         public static ILookup<TKey, TValue> Except<TKey, TValue>(
-            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer = null)
+            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> keyComparer = null)
         {
             if (first == null)
                 throw new ArgumentNullException("first");
@@ -17,8 +17,8 @@ namespace NOtherLookup
                 throw new ArgumentNullException("second");
 
             return first
-                .Select(x => Pair.Of(x.Key, x.Except(second.ValuesForKey(x.Key, comparer))))
-                .ToLookup(comparer);
+                .Select(x => Pair.Of(x.Key, x.Except(second.ValuesForKey(x.Key, keyComparer))))
+                .ToLookup(keyComparer);
         }
     }
 }

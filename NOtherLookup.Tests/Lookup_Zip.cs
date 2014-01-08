@@ -30,7 +30,7 @@ namespace NOtherLookup.Tests
     }
 
     [Subject("ILookup.Zip")]
-    public class When_zipping_lookups_with_comparer
+    public class When_zipping_lookups_with_key_comparer
     {
         Establish context = () =>
             lookup = Lookup.Builder

@@ -30,7 +30,7 @@ namespace NOtherLookup.Tests
     }
     
     [Subject("ILookup.Join")]
-    public class When_joining_lookups_with_comparer
+    public class When_joining_lookups_with_key_comparer
     {
         Establish context = () =>
             outer = Lookup.Builder

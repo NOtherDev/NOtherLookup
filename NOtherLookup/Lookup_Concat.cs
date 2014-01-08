@@ -9,12 +9,12 @@ namespace NOtherLookup
     {
         [Pure]
         public static ILookup<TKey, TValue> Concat<TKey, TValue>(
-            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer = null)
+            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> keyComparer = null)
         {
             if (first == null)
                 throw new ArgumentNullException("first");
 
-            return ConcatImpl(first, second).ToLookup(comparer);
+            return ConcatImpl(first, second).ToLookup(keyComparer);
         }
 
         private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> ConcatImpl<TKey, TValue>(

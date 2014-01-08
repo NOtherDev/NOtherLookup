@@ -34,7 +34,7 @@ namespace NOtherLookup.Tests
     }
     
     [Subject("ILookup.Except")]
-    public class When_creating_lookups_difference_with_comparer
+    public class When_creating_lookups_difference_with_key_comparer
     {
         Establish context = () =>
             lookup = Lookup.Builder

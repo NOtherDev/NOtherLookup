@@ -33,7 +33,7 @@ namespace NOtherLookup.Tests
     } 
     
     [Subject("ILookup.Concat")]
-    public class When_concatenating_lookups_with_comparer
+    public class When_concatenating_lookups_with_key_comparer
     {
         Establish context = () =>
             lookup = Lookup.Builder

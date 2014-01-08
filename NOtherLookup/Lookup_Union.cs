@@ -9,29 +9,29 @@ namespace NOtherLookup
     {
         [Pure]
         public static ILookup<TKey, TValue> Union<TKey, TValue>(
-            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer = null)
+            this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> keyComparer = null)
         {
             if (first == null)
                 throw new ArgumentNullException("first");
 
-            return UnionImpl(first, second, comparer).ToLookup(comparer);
+            return UnionImpl(first, second, keyComparer).ToLookup(keyComparer);
         }
 
         private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> UnionImpl<TKey, TValue>(
-            ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> comparer)
+            ILookup<TKey, TValue> first, ILookup<TKey, TValue> second, IEqualityComparer<TKey> keyComparer)
         {
-            var firstKeys = first.Keys(comparer);
-            var secondKeys = second.Keys(comparer);
+            var firstKeys = first.Keys(keyComparer);
+            var secondKeys = second.Keys(keyComparer);
 
             foreach (var key in firstKeys)
             {
                 secondKeys.Remove(key);
-                yield return Pair.Of(key, first.ValuesForKey(key, comparer).Union(second.ValuesForKey(key, comparer)));
+                yield return Pair.Of(key, first.ValuesForKey(key, keyComparer).Union(second.ValuesForKey(key, keyComparer)));
             }
 
             foreach (var newKey in secondKeys)
             {
-                yield return Pair.Of(newKey, second.ValuesForKey(newKey, comparer));
+                yield return Pair.Of(newKey, second.ValuesForKey(newKey, keyComparer));
             }
         }
     }
