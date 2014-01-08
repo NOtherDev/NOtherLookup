@@ -30,6 +30,29 @@ namespace NOtherLookup.Tests
     }
 
     [Subject("ILookup.Zip")]
+    public class When_zipping_lookups_with_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey("one", new[] { 1, 2 })
+                .WithKey("ONE", new[] { 3 }).Build();
+
+        Because of = () =>
+            zipped = lookup.Zip(Lookup.Builder
+                .WithKey("two", new[] { "a", "b" })
+                .WithKey("TWO", new[] { "c", "d" }).Build(), (x, y) => x + y, new StringLengthComparer());
+
+        It should_create_lookup_with_keys_from_first_lookup_that_has_matching_keys_in_second_lookup_respecting_comparer = () =>
+            zipped.Single().Key.ShouldEqual("one");
+
+        It should_have_elements_zipped_according_to_selector_up_to_shorters_collection_length_respecting_comparer = () => 
+            zipped["two"].ShouldContainExactly("1a", "2b", "3c");
+        
+        private static ILookup<string, int> lookup;
+        private static ILookup<string, string> zipped;
+    }
+
+    [Subject("ILookup.Zip")]
     public class When_zipping_null_with_lookup
     {
         Establish context = () =>
