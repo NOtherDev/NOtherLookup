@@ -47,7 +47,7 @@ namespace NOtherLookup.Tests
             concatenated.Count.ShouldEqual(1);
 
         It should_have_concatenated_IEnumerables_inside_respecting_comparer = () =>
-            concatenated["one"].ShouldContainExactly("a", "b", "b", "c");
+            concatenated["two"].ShouldContainExactly("a", "b", "b", "c");
         
         private static ILookup<string, string> lookup;
         private static ILookup<string, string> concatenated;

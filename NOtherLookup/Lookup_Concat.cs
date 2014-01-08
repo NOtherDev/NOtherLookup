@@ -17,7 +17,8 @@ namespace NOtherLookup
             return ConcatImpl(first, second).ToLookup(comparer);
         }
 
-        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> ConcatImpl<TKey, TValue>(this ILookup<TKey, TValue> first, ILookup<TKey, TValue> second)
+        private static IEnumerable<KeyValuePair<TKey, IEnumerable<TValue>>> ConcatImpl<TKey, TValue>(
+            IEnumerable<IGrouping<TKey, TValue>> first, ILookup<TKey, TValue> second)
         {
             var secondKeys = new HashSet<TKey>(second.Select(x => x.Key));
             foreach (var grouping in first)
@@ -27,7 +28,9 @@ namespace NOtherLookup
             }
 
             foreach (var newKey in secondKeys)
+            {
                 yield return new KeyValuePair<TKey, IEnumerable<TValue>>(newKey, second[newKey]);
+            }
         }
     }
 }
