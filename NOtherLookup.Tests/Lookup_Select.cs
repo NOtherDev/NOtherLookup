@@ -27,6 +27,27 @@ namespace NOtherLookup.Tests
     }
 
     [Subject("ILookup.Select")]
+    public class When_filtering_lookup_by_values_using_query_syntax
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey("a", new[] { 1, 3 })
+                .WithKey("b", new[] { 2, 4 }).Build();
+
+        Because of = () => 
+            filtered = from x in lookup 
+                       select x.Where(e => e > 3);
+
+        It should_filter_out_values_according_to_predicate = () =>
+        {
+            filtered.Count.ShouldEqual(1);
+            filtered["b"].ShouldContainExactly(4);
+        };
+
+        private static ILookup<string, int> lookup, filtered;
+    }
+
+    [Subject("ILookup.Select")]
     public class When_filtering_null_lookup_by_values
     {
         Establish context = () =>
