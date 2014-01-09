@@ -44,7 +44,7 @@ namespace NOtherLookup.Tests
         Because of = () =>
             difference = lookup.Except(Lookup.Builder
                 .WithKey("two", new[] { "d", "c" })
-                .WithKey("TWO", new[] { "b" }).Build(), new StringLengthComparer());
+                .WithKey("TWO", new[] { "b" }).Build(), keyComparer: new StringLengthComparer());
 
         It should_create_lookup_with_keys_from_difference_respecting_comparer = () =>
             difference.Count.ShouldEqual(1);
@@ -54,6 +54,23 @@ namespace NOtherLookup.Tests
         
         private static ILookup<string, string> lookup;
         private static ILookup<string, string> difference;
+    }
+
+    [Subject("ILookup.Except")]
+    public class When_creating_lookups_difference_with_value_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey(0, new[] { "one", "three" }).Build();
+
+        Because of = () =>
+            difference = lookup.Except(Lookup.Builder
+                .WithKey(0, new[] { "two", "four" }).Build(), valueComparer: new StringLengthComparer());
+
+        It should_have_only_difference_of_IEnumerables_inside_respecting_comparer = () =>
+            difference[0].ShouldContainExactly("three");
+
+        private static ILookup<int, string> lookup, difference;
     }
 
     [Subject("ILookup.Except")]

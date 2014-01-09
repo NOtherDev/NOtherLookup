@@ -41,7 +41,7 @@ namespace NOtherLookup.Tests
         Because of = () =>
             intersection = lookup.Intersect(Lookup.Builder
                 .WithKey("two", new[] { "b", "d" })
-                .WithKey("TWO", new[] { "c" }).Build(), new StringLengthComparer());
+                .WithKey("TWO", new[] { "c" }).Build(), keyComparer: new StringLengthComparer());
 
         It should_create_lookup_with_keys_from_intersection_respecting_comparer = () =>
             intersection.Count.ShouldEqual(1);
@@ -51,6 +51,23 @@ namespace NOtherLookup.Tests
         
         private static ILookup<string, string> lookup;
         private static ILookup<string, string> intersection;
+    }
+
+    [Subject("ILookup.Intersect")]
+    public class When_intersecting_lookups_with_value_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey(0, new[] { "one", "three" }).Build();
+
+        Because of = () =>
+            intersection = lookup.Intersect(Lookup.Builder
+                .WithKey(0, new[] { "two", "four" }).Build(), valueComparer: new StringLengthComparer());
+
+        It should_have_only_intersection_of_IEnumerables_inside_respecting_comparer = () =>
+            intersection[0].ShouldContainExactly("one");
+
+        private static ILookup<int, string> lookup, intersection;
     }
 
     [Subject("ILookup.Intersect")]

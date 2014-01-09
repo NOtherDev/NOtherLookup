@@ -43,7 +43,7 @@ namespace NOtherLookup.Tests
         Because of = () =>
             concatenated = lookup.Union(Lookup.Builder
                 .WithKey("two", new[] { "c", "d" })
-                .WithKey("TWO", new[] { "e" }).Build(), new StringLengthComparer());
+                .WithKey("TWO", new[] { "e" }).Build(), keyComparer: new StringLengthComparer());
 
         It should_create_lookup_with_keys_from_both_lookups_respecting_comparer = () =>
             concatenated.Count.ShouldEqual(1);
@@ -52,6 +52,24 @@ namespace NOtherLookup.Tests
             concatenated["two"].ShouldContainExactly("a", "b", "c", "d", "e");
         
         private static ILookup<string, string> lookup, concatenated;
+    } 
+
+    [Subject("ILookup.Union")]
+    public class When_unionizing_lookups_with_value_comparer
+    {
+        Establish context = () =>
+            lookup = Lookup.Builder
+                .WithKey(0, new[] { "one", "three" }).Build();
+
+        Because of = () =>
+            concatenated = lookup.Union(Lookup.Builder
+                .WithKey(0, new[] { "two", "four" }).Build(), valueComparer: new StringLengthComparer());
+
+        It should_have_unionized_IEnumerables_inside_respecting_comparer = () =>
+            concatenated[0].ShouldContainExactly("one", "three", "four");
+        
+        private static ILookup<int, string> lookup;
+        private static ILookup<int, string> concatenated;
     }
 
     [Subject("ILookup.Union")]
