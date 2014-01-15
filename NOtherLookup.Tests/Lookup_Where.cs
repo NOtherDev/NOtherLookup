@@ -7,8 +7,8 @@ using Tests.Utils;
 
 namespace Tests
 {
-    [Subject("ILookup.Select")]
-    public class When_projecting_lookup
+    [Subject("ILookup.Where")]
+    public class When_filtering_lookup
     {
         Establish context = () =>
             lookup = Lookup.Builder
@@ -16,21 +16,19 @@ namespace Tests
                 .WithKey("b", new[] { 2, 4 }).Build();
 
         Because of = () => 
-            projected = lookup.Select(x => x + "!");
+            filtered = lookup.Where(x => x > 3);
 
-        It should_project_values_according_to_selector = () =>
+        It should_filter_values_according_to_predicate = () =>
         {
-            projected.Count.ShouldEqual(2);
-            projected["a"].ShouldContainExactly("1!", "3!");
-            projected["b"].ShouldContainExactly("2!", "4!");
+            filtered.Count.ShouldEqual(1);
+            filtered["b"].ShouldContainExactly(4);
         };
 
-        private static ILookup<string, int> lookup;
-        private static ILookup<string, string> projected;
+        private static ILookup<string, int> lookup, filtered;
     }
 
-    [Subject("ILookup.Select")]
-    public class When_projecting_lookup_using_query_syntax
+    [Subject("ILookup.Where")]
+    public class When_filtering_lookup_using_query_syntax
     {
         Establish context = () =>
             lookup = Lookup.Builder
@@ -38,28 +36,27 @@ namespace Tests
                 .WithKey("b", new[] { 2, 4 }).Build();
 
         Because of = () => 
-            projected = from x in lookup 
-                       select x + "!";
+            filtered = from x in lookup 
+                       where x > 3
+                       select x;
 
-        It should_project_values_according_to_selector = () =>
+        It should_filter_values_according_to_predicate = () =>
         {
-            projected.Count.ShouldEqual(2);
-            projected["a"].ShouldContainExactly("1!", "3!");
-            projected["b"].ShouldContainExactly("2!", "4!");
+            filtered.Count.ShouldEqual(1);
+            filtered["b"].ShouldContainExactly(4);
         };
 
-        private static ILookup<string, int> lookup;
-        private static ILookup<string, string> projected;
+        private static ILookup<string, int> lookup, filtered;
     }
 
-    [Subject("ILookup.Select")]
-    public class When_projecting_null_lookup
+    [Subject("ILookup.Where")]
+    public class When_filtering_null_lookup
     {
         Establish context = () =>
             lookup = null;
 
         Because of = () =>
-            exception = Catch.Exception(() => lookup.Select(x => x + "!"));
+            exception = Catch.Exception(() => lookup.Where(x => x > 3));
 
         It should_throw_ArgumentNullException = () =>
             exception.ShouldBeOfType<ArgumentNullException>();
@@ -68,8 +65,8 @@ namespace Tests
         private static Exception exception;
     }
 
-    [Subject("ILookup.Select")]
-    public class When_projecting_lookup_with_null_selector
+    [Subject("ILookup.Where")]
+    public class When_filtering_lookup_with_null_predicate
     {
         Establish context = () =>
             lookup = Lookup.Builder
@@ -77,7 +74,7 @@ namespace Tests
                 .WithKey("b", new[] { 2, 4 }).Build();
 
         Because of = () => 
-            exception = Catch.Exception(() => lookup.Select((Func<int, string>)null));
+            exception = Catch.Exception(() => lookup.Where(null));
 
         It should_throw_ArgumentNullException = () =>
             exception.ShouldBeOfType<ArgumentNullException>();
