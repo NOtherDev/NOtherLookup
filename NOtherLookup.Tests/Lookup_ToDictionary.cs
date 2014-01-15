@@ -27,7 +27,7 @@ namespace NOtherLookup.Tests
         };
 
         private static ILookup<int, string> lookup;
-        private static IDictionary<int, IEnumerable<string>> dictionary;
+        private static Dictionary<int, List<string>> dictionary;
     } 
     
     [Subject("ILookup.ToDictionary")]
@@ -51,7 +51,7 @@ namespace NOtherLookup.Tests
         };
 
         private static ILookup<string, string> lookup;
-        private static IDictionary<string, IEnumerable<string>> dictionary;
+        private static Dictionary<string, List<string>> dictionary;
     }
 
     [Subject("ILookup.ToDictionary")]

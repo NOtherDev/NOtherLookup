@@ -8,19 +8,22 @@ namespace NOtherLookup
     public static partial class LookupExtensions
     {
         [Pure]
-        public static IDictionary<TKey, IEnumerable<TValue>> ToDictionary<TKey, TValue>(
+        public static Dictionary<TKey, List<TValue>> ToDictionary<TKey, TValue>(
             this ILookup<TKey, TValue> lookup, IEqualityComparer<TKey> comparer = null)
         {
             if (lookup == null)
                 throw new ArgumentNullException("lookup");
 
-            var dictionary = new Dictionary<TKey, IEnumerable<TValue>>(comparer);
+            var dictionary = new Dictionary<TKey, List<TValue>>(comparer);
             foreach (var group in lookup)
             {
-                IEnumerable<TValue> values;
+                List<TValue> values;
                 if (!dictionary.TryGetValue(group.Key, out values))
-                    values = Enumerable.Empty<TValue>();
-                dictionary[group.Key] = values.Concat(group);
+                {
+                    values = new List<TValue>();
+                    dictionary[group.Key] = values;
+                }
+                values.AddRange(group);
             }
             return dictionary;
         }
