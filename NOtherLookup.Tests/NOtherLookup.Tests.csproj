@@ -8,7 +8,7 @@
     <ProjectGuid>{2389B306-DC9E-4DF9-AA44-51E1C2DE2876}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NOtherLookup.Tests</RootNamespace>
+    <RootNamespace>Tests</RootNamespace>
     <AssemblyName>NOtherLookup.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

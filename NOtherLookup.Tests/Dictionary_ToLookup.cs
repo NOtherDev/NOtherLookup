@@ -2,9 +2,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Machine.Specifications;
-using NOtherLookup.Tests.Utils;
+using NOtherLookup;
+using Tests.Utils;
 
-namespace NOtherLookup.Tests
+namespace Tests
 {
     [Subject("IDictionary.ToLookup")]
     public class Dictionary_ToLookup_basic

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 
-namespace NOtherLookup.Tests.Utils
+namespace Tests.Utils
 {
     internal class StringLengthComparer : IEqualityComparer<string>
     {

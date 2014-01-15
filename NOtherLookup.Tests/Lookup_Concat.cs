@@ -2,9 +2,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Machine.Specifications;
-using NOtherLookup.Tests.Utils;
+using NOtherLookup;
+using Tests.Utils;
 
-namespace NOtherLookup.Tests
+namespace Tests
 {
     [Subject("ILookup.Concat")]
     public class When_concatenating_lookups

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
+using NOtherLookup;
 
-namespace NOtherLookup.Tests
+namespace Tests
 {
     [Subject("Lookup.Empty")]
     public class When_requesting_empty_lookup

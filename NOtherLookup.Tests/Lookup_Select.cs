@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Machine.Specifications;
-using NOtherLookup.Tests.Utils;
+using NOtherLookup;
+using Tests.Utils;
 
-namespace NOtherLookup.Tests
+namespace Tests
 {
     [Subject("ILookup.Select")]
     public class When_filtering_lookup_by_values

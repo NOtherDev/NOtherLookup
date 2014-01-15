@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using Machine.Specifications;
 
-namespace NOtherLookup.Tests.Utils
+namespace Tests.Utils
 {
     public static class ShouldExtensions
     {
