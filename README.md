@@ -39,9 +39,9 @@ Converting dictionaries to lookups works for multiple types of `TValue` collecti
 
     ILookup<int, string> lookup = sourceDictionary.ToLookup();
     
-And back to `IDictionary` - doable using standard LINQ operators, but quite verbose and convoluted.  
+And back to mutable `IDictionary` - doable using standard LINQ operators, but quite verbose and convoluted.
     
-    IDictionary<int, IEnumerable<string>> backToDict = lookup.ToDictionary();
+    Dictionary<int, List<string>> backToDict = lookup.ToDictionary();
 
 ## Operations on `ILookup`
 
@@ -62,6 +62,27 @@ Lookup instances used in the examples:
         .Build();
       
 
+
+### `Select` - runs a projection on values for each key
+
+    ILookup<int, string> projected = first.Select(x => x + "!");
+    
+Result:
+
+    1 => [a!, b!]
+    2 => [c!, d!]
+    
+    
+### `Where` - filters values for each key
+
+    ILookup<int, string> filtered = first.Select(x => x != "a");
+    
+Result:
+
+    1 => [b]
+    2 => [c, d]
+    
+    
 ### `Concat` - concatenates values for each key
 
     ILookup<int, string> concatenated = first.Concat(second);
@@ -71,6 +92,7 @@ Result:
     1 => [a, b, a, c]
     2 => [c, d]
     3 => [e, f]
+ 
     
 ### `Union` - gets the unique values for each key
 
@@ -84,6 +106,7 @@ Result:
     
 Also supports custom values comparers.
 
+
 ### `Except` - gets the difference of values set for each key
 
     ILookup<int, string> difference = first.Except(second);
@@ -95,6 +118,7 @@ Result:
     
 Also supports custom values comparers.
 
+
 ### `Intersect` - gets the intersection of values set for each key
 
     ILookup<int, string> intersection = first.Intersect(second);
@@ -105,14 +129,21 @@ Result:
     
 Also supports custom values comparers.
 
+
 ### `Join` - combines two lookups by values in each key using provided selector
 
-TODO
+    ILookup<int, string> joined = first.Join(second, (x, y) => x + y);
+    
+Result:
+
+    1 => [aa, ac, ba, bc]
+    
     
 ### `Zip` - combines two lookups by pairs of values using provided selector for each key
 
-TODO
+    ILookup<int, string> zipped = first.Zip(second, (x, y) => x + y);
+    
+Result:
 
-### `Select`/`Where`
+    1 => [aa, bc]
 
-TODO
