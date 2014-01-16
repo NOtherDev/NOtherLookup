@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lookup_OnEachKey.cs" />
     <Compile Include="Lookup_Where.cs" />
     <Compile Include="Lookup_Builder.cs" />
     <Compile Include="Lookup_Zip.cs" />

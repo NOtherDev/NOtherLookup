@@ -11,10 +11,7 @@ namespace NOtherLookup
         public static ILookup<TKey, TValue> Where<TKey, TValue>(
             this ILookup<TKey, TValue> lookup, Func<TValue, bool> predicate)
         {
-            if (predicate == null)
-                throw new ArgumentNullException("predicate");
-
-            return lookup.Select(x => Pair.Of(x.Key, x.Where(predicate))).ToLookup();
+            return lookup.OnEachKey(x => x.Where(predicate));
         }
     }
 }
