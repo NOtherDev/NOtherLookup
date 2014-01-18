@@ -31,3 +31,5 @@ $tf*/
 packages/*
 !packages/repositories.config
 !packages/build/
+
+*.nupkg
